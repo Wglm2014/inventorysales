@@ -1,6 +1,7 @@
 package com.inventsale.inventorysales.entities.general;
 
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -27,43 +28,80 @@ public class Company {
 	@Column(name = "title")
 	@NotNull
 	private String title;
+	
 	@Column(name = "commercial_name")
 	@NotNull
 	private String commercialName;
+	
 	@Column(name = "address")
 	@NotNull
 	private String address;
+	
 	@Column(name = "phone_1")
 	@NotNull
 	private String telephone;
+	
 	@Column(name = "phone_2")
 	private String otherPhone;
+	@Lob
 	@Column(name = "logo")
 	private byte[] logo;
-	@Column(name = "logo_content_type)")
+	
+	@Column(name = "logo_content_type")
 	private String logoContentType;
+	
 	@Column(name = "created_by")
 	private String createdBy;
 	
+	@Column(name="last_modified_by")
+	private String modifyBy;
+	
+	@Column(name="contributor_registry_number")
+	private String contributorRegistryNumber;
+	
+	@Column(name="contributor_name")
+	private String contributorName;
+	
+	@Column(name="nit")
+	private String nit;
+	
+	@Column(name="activity")
+	private String activity;
+	
+	@Column(name="social_reason")
+	private String socialReason;
+	
 	@OneToMany(mappedBy="company",cascade= CascadeType.ALL)
 	private Set<Branch> branch = new HashSet<>();
-
-
+	
+	public Company() {}
 
 	public Company(Integer id, String title, String commercialName, String address, String telephone, String otherPhone,
-			byte[] logo, String logoContentType, String createdBy) {
+			byte[] logo, String logoContentType, String createdBy,String modifyBy,
+			String contributorRegistryNumber, String contributorName,String nit, String activity, String socialReason) {
+		
 		super();
+						
 		this.id = id;
 		this.title = title;
 		this.commercialName = commercialName;
 		this.address = address;
 		this.telephone = telephone;
-		this.otherPhone = otherPhone;
+		this.otherPhone = otherPhone;				
 		this.logo = logo;
 		this.logoContentType = logoContentType;
 		this.createdBy = createdBy;
-	}
+		this.modifyBy = modifyBy;
+		this.contributorRegistryNumber= contributorRegistryNumber;
+		this.contributorName = contributorName;
+		this.nit = nit;
+		this.activity = activity;
+		this.socialReason = socialReason;
+		
 
+
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -117,8 +155,10 @@ public class Company {
 	}
 
 	public void setLogo(byte[] logo) {
+		
 		this.logo = logo;
 	}
+	
 
 	public String getLogoContentType() {
 		return logoContentType;
@@ -143,4 +183,55 @@ public class Company {
 	public void setBranch(Set<Branch> branch) {
 		this.branch = branch;
 	}
+
+	public String getModifyBy() {
+		return modifyBy;
+	}
+
+	public void setModifyBy(String modifyBy) {
+		this.modifyBy = modifyBy;
+	}
+
+	public String getContributorRegistryNumber() {
+		return contributorRegistryNumber;
+	}
+
+	public void setContributorRegistryNumber(String contributorRegistryNumber) {
+		this.contributorRegistryNumber = contributorRegistryNumber;
+	}
+
+	public String getNit() {
+		return nit;
+	}
+
+	public void setNit(String nit) {
+		this.nit = nit;
+	}
+
+	public String getActivity() {
+		return activity;
+	}
+
+	public void setActivity(String activity) {
+		this.activity = activity;
+	}
+
+	public String getSocialReason() {
+		return socialReason;
+	}
+
+	public void setSocialReason(String socialReason) {
+		this.socialReason = socialReason;
+	}
+
+	public String getContributorName() {
+		return contributorName;
+	}
+
+	public void setContributorName(String contributorName) {
+		this.contributorName = contributorName;
+	}
+	
+	
+	
 }

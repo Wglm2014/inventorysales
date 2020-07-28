@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "demo_municipality")
+@Table(name = "municipality")
 public class Municipality {
 	@Id
 	@Column(name = "id")
@@ -35,7 +35,7 @@ public class Municipality {
 	@Column(name = "last_modified_by")
 	private String lastModifyBy;
 
-	@Column(name = "demo_department_id")
+	@Column(name = "department_id")
 	@NotNull
 	private Integer departmentId;
 

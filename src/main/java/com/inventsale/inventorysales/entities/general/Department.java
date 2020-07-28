@@ -18,7 +18,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 
 @Entity
-@Table(name="demo_department")
+@Table(name="department")
 public class Department {
     @Id
     @Column(name="id")

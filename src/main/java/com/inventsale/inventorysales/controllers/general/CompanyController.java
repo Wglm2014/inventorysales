@@ -1,7 +1,13 @@
 package com.inventsale.inventorysales.controllers.general;
 
+
+
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
+
+//import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inventsale.inventorysales.entities.general.Company;
+import com.inventsale.inventorysales.entities.general.CompanyClone;
 import com.inventsale.inventorysales.services.general.CompanyService;
+
 
 @CrossOrigin
 @RestController
@@ -29,9 +37,19 @@ public class CompanyController {
 	}
 	
 	@GetMapping("/company")
-	public List<Company> getAll(){
-		
-		return companyService.findAll();
+	public List<CompanyClone> getAll(){
+		List<Company> companies = companyService.findAll();
+		List<CompanyClone> companyClones = new ArrayList<CompanyClone>();
+		for (Company item:companies) {
+			companyClones.add(new CompanyClone(
+					item.getId(),item.getTitle(),item.getCommercialName(),
+					item.getAddress(),item.getTelephone(),item.getOtherPhone(),
+					new String(item.getLogo()),item.getLogoContentType(),item.getCreatedBy(),
+					item.getModifyBy(), item.getContributorRegistryNumber(), item.getContributorName(),item.getNit(), 
+					item.getActivity(), item.getSocialReason()
+					));
+		}
+		return companyClones;
 	}
 	
 	@GetMapping("/company/{id}")
@@ -44,9 +62,27 @@ public class CompanyController {
 	}
 	
 	@PostMapping("/company")
-	public Company addCompany(@RequestBody Company company) {
+	public CompanyClone addCompany(@RequestBody CompanyClone companyClone) {
+		System.out.println(companyClone.getLogo());
+		Company company = new Company();
+		company.setId(companyClone.getId());
+		company.setAddress(companyClone.getAddress());
+		company.setCommercialName(companyClone.getCommercialName());
+		company.setTitle(companyClone.getTitle());
+		company.setTelephone(companyClone.getTelephone());
+		company.setOtherPhone(companyClone.getOtherPhone());
+		company.setLogo(companyClone.getLogo().getBytes());
+		company.setLogoContentType(companyClone.getLogoContentType());
+		company.setCreatedBy(companyClone.getCreatedBy());
+		company.setModifyBy(companyClone.getModifyBy());
+		company.setContributorRegistryNumber(companyClone.getContributorRegistryNumber());
+		company.setContributorName(companyClone.getContributorName());
+		company.setNit(companyClone.getNit());
+		company.setActivity(companyClone.getActivity());
+		company.setSocialReason(companyClone.getSocialReason());
+		
 		companyService.save(company);
-		return company;
+		return companyClone;
 	}
 
 	@PutMapping("/company")
