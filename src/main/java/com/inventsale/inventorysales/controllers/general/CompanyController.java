@@ -3,7 +3,6 @@ package com.inventsale.inventorysales.controllers.general;
 
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 
@@ -63,7 +62,20 @@ public class CompanyController {
 	
 	@PostMapping("/company")
 	public CompanyClone addCompany(@RequestBody CompanyClone companyClone) {
-		System.out.println(companyClone.getLogo());
+	    
+		boolean saveSuccess = saveInsertOrUpdate(companyClone);
+		return companyClone;
+	}
+
+	@PutMapping("/company")
+	public CompanyClone updateCompany(@RequestBody CompanyClone companyClone) {
+		
+		boolean saveSuccess = saveInsertOrUpdate(companyClone);
+		return companyClone;
+	}
+	
+	private boolean saveInsertOrUpdate(CompanyClone companyClone) {
+		
 		Company company = new Company();
 		company.setId(companyClone.getId());
 		company.setAddress(companyClone.getAddress());
@@ -80,26 +92,21 @@ public class CompanyController {
 		company.setNit(companyClone.getNit());
 		company.setActivity(companyClone.getActivity());
 		company.setSocialReason(companyClone.getSocialReason());
+				
+		companyService.save(company);
+		return true;
 		
-		companyService.save(company);
-		return companyClone;
-	}
-
-	@PutMapping("/company")
-	public Company updateCompany(@RequestBody Company company) {
-		companyService.save(company);
-		return company;
 	}
 	
 	@DeleteMapping("/company/{id}")
-	public String deleteCompany(@PathVariable Integer id) {
+	public Company deleteCompany(@PathVariable Integer id) {
 
-		String msg = "Registro no encontrado";		
+				
 		Company result = companyService.findById(id);
-		if (result !=null) {
-			msg= "Registro Eliminidao";
-			companyService.deleteById(id);
-		}
-		return msg;
+		if (result.getId() ==null) {	
+			throw new RuntimeException("Registro con id:"+id +" no Encontrado"); 
+		} 
+		companyService.deleteById(id);
+		return result;
 	}
 }

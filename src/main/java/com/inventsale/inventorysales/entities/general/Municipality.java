@@ -48,7 +48,7 @@ public class Municipality {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "demo_department_id", referencedColumnName = "id", insertable = false, updatable = false)
+	@JoinColumn(name = "department_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private Department department;
 
 	public Municipality() {

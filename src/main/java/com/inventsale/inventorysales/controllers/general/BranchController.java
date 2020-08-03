@@ -59,14 +59,15 @@ public class BranchController {
 	}
 	
 	@DeleteMapping("/branch/{id}")
-	public String deleteBranch(@PathVariable Integer id) {
+	public Branch deleteBranch(@PathVariable Integer id) {
 		String msg = "Sucursal no encontrada";
 		Branch result = branchService.findById(id);
-		if (result !=null) {
-			msg = "Sucursal Eliminada";
-			branchService.deleteById(id);
+		if (result.getId() ==null) {
+			
+			throw new RuntimeException(msg);			
 		}
-		return msg;
+		branchService.deleteById(id);
+		return result;
 	}
 		
 	

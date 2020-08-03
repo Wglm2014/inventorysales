@@ -45,7 +45,7 @@ public class Branch {
 	@JoinColumn(name="company_id", referencedColumnName="id", insertable=false, updatable=false )
 	private Company company; 
 	
-
+	public Branch(){}
 
 	public Branch(Integer id, String title, String address, String telephone, String otherPhone,
 			String titleAbreviation, Integer companyId, String createdBy, String lastModifiedBy) {
