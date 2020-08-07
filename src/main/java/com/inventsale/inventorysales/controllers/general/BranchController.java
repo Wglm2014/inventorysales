@@ -1,7 +1,10 @@
 package com.inventsale.inventorysales.controllers.general;
 
+import java.util.ArrayList;
 import java.util.List;
 
+//import org.json.JSONArray;
+//import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+//import com.fasterxml.jackson.core.JsonParser;
+//import com.fasterxml.jackson.databind.ObjectMapper;
+import com.inventsale.inventorysales.DTO.BranchDTO;
 import com.inventsale.inventorysales.entities.general.Branch;
 import com.inventsale.inventorysales.services.general.BranchService;
 
@@ -30,8 +36,22 @@ public class BranchController {
 	}
 	
 	@GetMapping("/branch")
-	public List<Branch> getAll(){
-		return branchService.findAll();
+	public ArrayList<BranchDTO> getAll(){
+		List<Branch> branches = branchService.findAll();
+		ArrayList<BranchDTO> branchesDTO= new ArrayList<BranchDTO>();
+		BranchDTO branchDTO = new BranchDTO();
+		for (Branch branch : branches) {
+			branchDTO.setId(branch.getId());
+			branchDTO.setTitle(branch.getTitle());
+			branchDTO.setTitleAbbreviation(branch.getTitleAbreviation());
+			branchDTO.setTelephone(branch.getTelephone());
+			branchDTO.setOtherPhone(branch.getOtherPhone());
+			branchDTO.setAddress(branch.getAddress());
+			branchDTO.setCompanyId(branch.getCompanyId());
+			branchDTO.setCompanyName(branch.getCompany().getCommercialName());
+			branchesDTO.add(branchDTO);
+		}
+		return branchesDTO;
 	}
 	
 	@GetMapping("/branch/{id}")
