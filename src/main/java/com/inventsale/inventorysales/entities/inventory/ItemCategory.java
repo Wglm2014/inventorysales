@@ -1,5 +1,8 @@
 package com.inventsale.inventorysales.entities.inventory;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,34 +10,41 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name="item_category")
+@Table(name = "item_category")
 public class ItemCategory {
 
 	@Id
-	@Column(name="id")
-	@GeneratedValue(strategy=GenerationType.AUTO,generator="native")
-	@GenericGenerator(name="native",strategy="native")
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@GenericGenerator(name = "native", strategy = "native")
 	private Integer id;
-	@Column(name="title")
+	@Column(name = "title")
 	@NotNull
 	private String title;
-	@Column(name="item_group_id")
+	@Column(name = "item_group_id")
 	@NotNull
 	private Integer groupId;
-	@Column(name="created_by")
+	@Column(name = "created_by")
 	private String createdBy;
-	@Column(name="last_modify_by")
+	@Column(name = "last_modify_by")
 	private String lastModifiedBy;
-	
+
 	@ManyToOne
-	@JoinColumn(name="item_group_id",referencedColumnName="id",insertable=false,updatable=false)
+	@JoinColumn(name = "item_group_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private CategoryGroup categoryGroup;
+
+	@OneToMany(mappedBy = "itemCategory", cascade = CascadeType.ALL)
+	private Set<Item> item;
+
+	public ItemCategory() {
+	}
 
 	public ItemCategory(Integer id, String title, Integer groupId, String createdBy, String lastModifiedBy) {
 		super();
@@ -92,7 +102,5 @@ public class ItemCategory {
 	public void setCategoryGroup(CategoryGroup categoryGroup) {
 		this.categoryGroup = categoryGroup;
 	}
-	
-	
-	
+
 }
